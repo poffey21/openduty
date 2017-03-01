@@ -38,7 +38,8 @@ def create_or_edit_event(request, calendar_slug, event_id=None, next=None,
     if data:
         data["title"] = data["oncall"]+","+data["fallback"]
     form = form_class(data=data or None, instance=instance, initial=initial_data)
-    users = User.objects.all();
+    #users = User.objects.all();
+    users = User.objects.filter(groups__name=calendar.name)
     if form.is_valid():
         event = form.save(commit=False)
         if instance is None:
